@@ -1,0 +1,13 @@
+*.o
+.depend.*
+x86
+machine
+*.ko
+device_if.h
+export_syms
+ifdi_if.h
+bus_if.h
+opt_inet.h
+opt_inet6.h
+opt_rss.h
+pci_if.h
