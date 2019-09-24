@@ -345,11 +345,6 @@ static int aq_isc_rxd_pkt_get(void *arg, if_rxd_info_t ri)
 
 		trace_aq_rx_descr(ring->index, cidx, (volatile u64*)rx_desc);
 
-		if (rx_desc->wb.rdm_err) {
-			ring->stats.rx_err++;
-			rc = (EBADMSG);
-			goto exit;
-		}
 		if ((rx_desc->wb.rx_stat & BIT(0)) != 0) {
 			ring->stats.rx_err++;
 			rc = (EBADMSG);

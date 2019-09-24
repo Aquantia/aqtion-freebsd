@@ -178,8 +178,8 @@ struct aq_hw {
 
 #define HW_ATL_B0_MIN_RXD 32U
 #define HW_ATL_B0_MIN_TXD 32U
-#define HW_ATL_B0_MAX_RXD 8184U
-#define HW_ATL_B0_MAX_TXD 8184U
+#define HW_ATL_B0_MAX_RXD 4096U /* in fact up to 8184, but closest to power of 2 */
+#define HW_ATL_B0_MAX_TXD 4096U /* in fact up to 8184, but closest to power of 2 */
 
 #define HW_ATL_B0_MTU_JUMBO  16352U
 #define HW_ATL_B0_TSO_SIZE (160*1024)

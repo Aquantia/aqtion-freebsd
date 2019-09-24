@@ -364,8 +364,10 @@ static int aq_if_attach_pre(if_ctx_t ctx)
 	softc->admin_ticks = 0;
 
 	iflib_set_mac(ctx, hw->mac_addr);
+#if __FreeBSD__ < 13
+	/* since FreeBSD13 deadlock due to calling iflib_led_func() under CTX_LOCK() */
 	iflib_led_create(ctx);
-
+#endif
 	scctx->isc_tx_csum_flags = CSUM_IP | CSUM_TCP | CSUM_UDP | CSUM_TSO;
 #if __FreeBSD__ >= 12
 	scctx->isc_capabilities = IFCAP_RXCSUM | IFCAP_TXCSUM | IFCAP_HWCSUM | IFCAP_TSO |
@@ -383,7 +385,7 @@ static int aq_if_attach_pre(if_ctx_t ctx)
 #endif
 	scctx->isc_tx_nsegments = 31,
 	scctx->isc_tx_tso_segments_max = 31;
-	scctx->isc_tx_tso_size_max = HW_ATL_B0_TSO_SIZE;
+	scctx->isc_tx_tso_size_max = HW_ATL_B0_TSO_SIZE - sizeof(struct ether_vlan_header);
 	scctx->isc_tx_tso_segsize_max = HW_ATL_B0_MTU_JUMBO;
 	scctx->isc_min_frame_size = 52;
 	scctx->isc_txrx = &aq_txrx;
@@ -1031,9 +1033,8 @@ static void aq_if_led_func(if_ctx_t ctx, int onoff)
 	struct aq_hw  *hw = &softc->hw;
 
 	AQ_DBG_ENTERA("%d", onoff);
-		if (hw->fw_ops && hw->fw_ops->led_control)
-			hw->fw_ops->led_control(hw, onoff);
-
+	if (hw->fw_ops && hw->fw_ops->led_control)
+		hw->fw_ops->led_control(hw, onoff);
 
 	AQ_DBG_EXIT(0);
 }
