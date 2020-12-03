@@ -307,7 +307,6 @@ int aq_hw_get_mac_permanent(struct aq_hw *hw,  u8 *mac)
 
     /* Couldn't get MAC address from HW. Use auto-generated one. */
     if ((mac[0] & 1) || ((mac[0] | mac[1] | mac[2]) == 0)) {
-        u64 seed = get_cyclecount();
         u16 rnd;
         u32 h = 0;
         u32 l = 0;
@@ -315,7 +314,6 @@ int aq_hw_get_mac_permanent(struct aq_hw *hw,  u8 *mac)
         printf("atlantic: HW MAC address %x:%x:%x:%x:%x:%x is multicast or empty MAC", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
         printf("atlantic: Use random MAC address");
 
-        srandom(seed);
         rnd = random();
 
         /* chip revision */
