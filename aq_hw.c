@@ -314,7 +314,7 @@ int aq_hw_get_mac_permanent(struct aq_hw *hw,  u8 *mac)
         printf("atlantic: HW MAC address %x:%x:%x:%x:%x:%x is multicast or empty MAC", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
         printf("atlantic: Use random MAC address");
 
-        rnd = random();
+        rnd = arc4random();
 
         /* chip revision */
         l = 0xE3000000U
