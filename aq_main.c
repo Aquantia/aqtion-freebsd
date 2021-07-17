@@ -117,10 +117,12 @@ static pci_vendor_info_t aq_vendor_info_array[] = {
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC107, "Aquantia AQtion 10Gbit Network Adapter"),
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC108, "Aquantia AQtion 5Gbit Network Adapter"),
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC109, "Aquantia AQtion 2.5Gbit Network Adapter"),
+	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC100, "Aquantia AQtion 10Gbit Network Adapter"),
 
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC107S, "Aquantia AQtion 10Gbit Network Adapter"),
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC108S, "Aquantia AQtion 5Gbit Network Adapter"),
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC109S, "Aquantia AQtion 2.5Gbit Network Adapter"),
+  PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC100S, "Aquantia AQtion 10Gbit Network Adapter"),
 
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC111, "Aquantia AQtion 5Gbit Network Adapter"),
 	PVID(AQUANTIA_VENDOR_ID, AQ_DEVICE_ID_AQC112, "Aquantia AQtion 2.5Gbit Network Adapter"),
@@ -881,7 +883,7 @@ static void aq_if_disable_intr(if_ctx_t ctx)
 	struct aq_hw  *hw = &softc->hw;
 
 	AQ_DBG_ENTER();
-	
+
 	/* Disable interrupts */
 	itr_irq_msk_clearlsw_set(hw, BIT(softc->msix + 1) - 1);
 
@@ -1078,7 +1080,7 @@ static int aq_hw_capabilities(struct aq_dev *softc)
 		softc->media_type = AQ_MEDIA_TYPE_TP;
 		softc->link_speeds = AQ_LINK_ALL & ~(AQ_LINK_10G | AQ_LINK_5G);
 		break;
-	
+
 	default:
 		return (ENXIO);
 	}
