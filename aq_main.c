@@ -418,13 +418,11 @@ fail:
 static int aq_if_attach_post(if_ctx_t ctx)
 {
 	struct aq_dev *softc;
-	if_t ifp;
 	int rc;
 
 	AQ_DBG_ENTER();
 
 	softc = iflib_get_softc(ctx);
-	ifp = iflib_get_ifp(ctx);
 	rc = 0;
 
 	aq_update_hw_stats(softc);
@@ -636,13 +634,11 @@ static void aq_if_init(if_ctx_t ctx)
 	struct aq_dev *softc;
 	struct aq_hw *hw;
 	struct ifmediareq ifmr;
-	struct ifnet *ifp;
 	int i, err;
 
 	AQ_DBG_ENTER();
 	softc = iflib_get_softc(ctx);
 	hw = &softc->hw;
-	ifp = iflib_get_ifp(ctx);
 
 	err = aq_hw_init(&softc->hw, softc->hw.mac_addr, softc->msix,
 					softc->scctx->isc_intr == IFLIB_INTR_MSIX);
@@ -851,12 +847,10 @@ exit:
 static int aq_if_promisc_set(if_ctx_t ctx, int flags)
 {
 	struct aq_dev *softc;
-	struct ifnet *ifp;
 
 	AQ_DBG_ENTER();
 
 	softc = iflib_get_softc(ctx);
-	ifp = iflib_get_ifp(softc->ctx);
 
 	aq_hw_set_promisc(&softc->hw, !!(flags & IFF_PROMISC),
 			  aq_is_vlan_promisc_required(softc),
