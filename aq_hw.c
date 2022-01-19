@@ -160,7 +160,7 @@ static int aq_hw_init_ucp(struct aq_hw *hw)
             unsigned int rnd = 0;
             unsigned int ucp_0x370 = 0;
 
-            rnd = random();
+            rnd = arc4random();
 
             ucp_0x370 = 0x02020202 | (0xFEFEFEFE & rnd);
             AQ_WRITE_REG(hw, AQ_HW_UCP_0X370_REG, ucp_0x370);
