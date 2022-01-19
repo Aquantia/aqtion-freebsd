@@ -739,7 +739,7 @@ static uint64_t aq_if_get_counter(if_ctx_t ctx, ift_counter cnt)
 }
 
 #if __FreeBSD_version >= 1300054
-static u_int aq_mc_filter_apply(void *arg, struct sockaddr_dl *dl, int count)
+static u_int aq_mc_filter_apply(void *arg, struct sockaddr_dl *dl, u_int count)
 {
 	struct aq_dev *softc = arg;
 	struct aq_hw *hw = &softc->hw;
@@ -797,7 +797,7 @@ static void aq_if_multi_set(if_ctx_t ctx)
 				  !!(ifp->if_flags & IFF_ALLMULTI) || aq_is_mc_promisc_required(softc));
 	}else{
 #if __FreeBSD_version >= 1300054
-		if_foreach_llmaddr(iflib_get_ifp(ctx), aq_mc_filter_apply, softc);
+		if_foreach_llmaddr(iflib_get_ifp(ctx), &aq_mc_filter_apply, softc);
 #else
 		if_multi_apply(iflib_get_ifp(ctx), aq_mc_filter_apply, softc);
 #endif
