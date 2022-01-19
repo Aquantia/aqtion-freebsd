@@ -285,8 +285,6 @@ static struct if_shared_ctx aq_sctx_init = {
 	.isc_ntxd_default = {PAGE_SIZE / sizeof(aq_txc_desc_t) * 4},
 };
 
-if_shared_ctx_t aq_sctx = &aq_sctx_init;
-
 /*
  * TUNEABLE PARAMETERS:
  */
@@ -303,7 +301,7 @@ SYSCTL_INT(_hw_aq, OID_AUTO, enable_rss_udp, CTLFLAG_RDTUN, &aq_enable_rss_udp, 
  */
 static void *aq_register(device_t dev)
 {
-	return (aq_sctx);
+	return (&aq_sctx_init);
 }
 
 static int aq_if_attach_pre(if_ctx_t ctx)
